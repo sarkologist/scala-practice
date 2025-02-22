@@ -1,7 +1,7 @@
 import munit.ScalaCheckSuite
 import org.scalacheck.Prop._
 
-class TestSuite extends munit.FunSuite with ScalaCheckSuite:
+class ArrayTestSuite extends munit.FunSuite with ScalaCheckSuite:
   test("rotate, negative k"):
     assertEquals(rotate(Array(1,2,3), -2).toSeq, Array(3,1,2).toSeq)
     assertEquals(rotate(Array(1,2,3), -3).toSeq, Array(1,2,3).toSeq)
