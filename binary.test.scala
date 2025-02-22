@@ -10,3 +10,7 @@ class BinaryDigitsTestSuite extends munit.FunSuite with ScalaCheckSuite:
     assertEquals(binaryDigits(4), List(1,0,0))
     assertEquals(binaryDigits(5), List(1,0,1))
   
+  property("binaryDigitsToInteger is the inverse of binaryDigits"):
+    forAll { (n: Int) =>
+      assertEquals(binaryDigitsToInteger(binaryDigits(n)), n)
+    } 
