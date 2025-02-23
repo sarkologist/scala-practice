@@ -15,3 +15,10 @@ def binarySearchLeq[A](target: A, xs: Vector[A])(implicit ord: Ordering[A]): Opt
             else Some((xs(Math.max(0, end)), Math.max(0, end)))
 
         go(0, xs.length - 1)
+
+def squareRoot(n: Int): Int =
+    n match {
+        case 0 => 0
+        case 1 => 1
+        case _ => binarySearchLeq(n, (0 to n / 2).map(x => x * x).toVector).get._2
+    }
