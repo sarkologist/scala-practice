@@ -1,11 +1,9 @@
 def onlyUniqueElements[A](xs: List[A]): Set[A] =
-    val (more, once) = xs.foldLeft(Set.empty[A], Set.empty[A]){ (acc, x) =>
+    xs.foldLeft(Set.empty[A], Set.empty[A]){ (acc, x) =>
         acc match 
             case (more, once) =>
-                if once.contains(x) then
-                    (more + x, once)
+                if once.contains(x) || more.contains(x) then
+                    (more + x, once - x)
                 else (more, once + x)
         
-    }
-
-    once -- more
+    }._2
