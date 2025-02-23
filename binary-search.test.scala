@@ -1,7 +1,6 @@
 import munit.ScalaCheckSuite
-import org.scalacheck.Prop._
 
-class BinarySearchTestSuite extends munit.FunSuite with ScalaCheckSuite:
+class BinarySearchTestSuite extends munit.FunSuite:
     test("binarySearchLeq"):
         assertEquals(binarySearchLeqVector(0, Vector(0)), Some((0, 0)))
         assertEquals(binarySearchLeqVector(1, Vector(0)), Some((0, 0)))
