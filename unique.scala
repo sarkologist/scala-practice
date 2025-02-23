@@ -1,4 +1,4 @@
-def onlyUniqueElements[A](xs: List[A]): Set[A] =
+def onlyUniqueElements[A](xs: Iterable[A]): Set[A] =
     xs.foldLeft(Set.empty[A], Set.empty[A]){ (acc, x) =>
         acc match 
             case (more, once) =>
