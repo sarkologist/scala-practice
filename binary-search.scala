@@ -19,9 +19,5 @@ def binarySearchLeq[A](target: A, index: Int => A, left: Int, right: Int)(implic
     go(left, right)
 
 def squareRoot(n: Int): Int =
-    n match {
-        case 0 => 0
-        case 1 => 1
-        case _ => binarySearchLeq(n, (x) => x*x, 0, n / 2)._2
-    }
+    binarySearchLeq(n, (x) => x*x, 0, n)._2
 
