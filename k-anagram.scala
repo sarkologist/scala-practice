@@ -19,12 +19,7 @@ given [A](using num: Numeric[A]): Group[A] with
   def combine(x: A, y: A): A = num.plus(x, y)
   def invert(a: A): A = num.negate(a)
 
-case class MergeMap[K, V](map: HashMap[K, V]):
-  override def toString: String = s"MergeMap($map)"
-  override def equals(obj: Any): Boolean = 
-    obj match
-      case MergeMap(otherMap) => map == otherMap
-      case _ => false
+case class MergeMap[K, V](map: HashMap[K, V])
 
 given [K: Hashing, V: Semigroup]: Semigroup[MergeMap[K, V]] with
   def combine(mx: MergeMap[K, V], my: MergeMap[K, V]): MergeMap[K, V] =
