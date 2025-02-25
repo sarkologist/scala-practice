@@ -1,11 +1,6 @@
 import scala.collection.immutable.HashMap
 import scala.util.hashing.Hashing
 
-trait Functor[F[_]]:
-  def map[A, B](fa: F[A])(f: A => B): F[B]
-  extension [A](fa: F[A])
-    def fmap[B](f: A => B): F[B] = map(fa)(f)
-
 trait Semigroup[A]:
   def combine(x: A, y: A): A
   extension (x: A)
