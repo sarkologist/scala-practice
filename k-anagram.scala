@@ -19,15 +19,10 @@ trait Group[A] extends Monoid[A]:
   extension (a: A)
     def inverse: A = invert(a)
 
-case class Sum[A](get: A)
-
-given Functor[Sum] with
-  def map[A, B](fa: Sum[A])(f: A => B): Sum[B] = Sum(f(fa.get))
-
-given [A](using num: Numeric[A]): Group[Sum[A]] with
-  def empty: Sum[A] = Sum(num.zero)
-  def combine(x: Sum[A], y: Sum[A]): Sum[A] = Sum(num.plus(x.get, y.get))
-  def invert(a: Sum[A]): Sum[A] = Sum(num.negate(a.get))
+given [A](using num: Numeric[A]): Group[A] with
+  def empty: A = num.zero
+  def combine(x: A, y: A): A = num.plus(x, y)
+  def invert(a: A): A = num.negate(a)
 
 case class MergeMap[K, V](map: HashMap[K, V]):
   override def toString: String = s"MergeMap($map)"
@@ -48,12 +43,12 @@ def isKAnagram(k: Int)(a: String, b: String): Boolean =
   replacementsNeeded(a, b).exists(_ <= k)
 
 def replacementsNeeded(a: String, b: String)
-    (using Functor[Sum], Group[Sum[Int]])
+    (using Group[Int])
     : Option[Int] =
   unmatchedCount(a, b).map { mergeMap =>
-    val Sum(count) = mergeMap.map.values
-      .map(_.fmap(Math.abs))
-      .foldLeft(Sum(0))(_ <> _)
+    val count = mergeMap.map.values
+      .map(Math.abs)
+      .foldLeft(0)(_ <> _)
     val (q, r) = (count / 2, count % 2)
     if r == 0 then Some(q)
     else throw new Error("replacementsNeeded: unmatchedCount should have returned" +
@@ -61,15 +56,15 @@ def replacementsNeeded(a: String, b: String)
   }.flatten
 
 def unmatchedCount(a: String, b: String)
-    (using Semigroup[MergeMap[Char, Sum[Int]]], Group[Sum[Int]])
-    : Option[MergeMap[Char, Sum[Int]]] =
+    (using Semigroup[MergeMap[Char, Int]], Group[Int])
+    : Option[MergeMap[Char, Int]] =
   if a.length != b.length then None
   else
-    var acc = MergeMap(HashMap.empty[Char, Sum[Int]])
+    var acc = MergeMap(HashMap.empty[Char, Int])
     for i <- 0 until a.length do
       acc = acc <>
-        MergeMap(HashMap(a.charAt(i) -> Sum(1))) <>
-        MergeMap(HashMap(b.charAt(i) -> Sum(1).inverse))
+        MergeMap(HashMap(a.charAt(i) -> 1)) <>
+        MergeMap(HashMap(b.charAt(i) -> 1.inverse))
     Some(acc)
 
 
