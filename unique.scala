@@ -7,3 +7,13 @@ def onlyUniqueElements[A](xs: Iterable[A]): Set[A] =
                 else (more, once + x)
         
     }._2
+
+def isPermutation[A](xs: Seq[A]): Boolean =
+    xs.toSet.size == xs.length
+
+def isPermutationOfRange(a: Seq[Int]): Boolean = 
+    val remaining = a.foldLeft(Range(1,a.length+1).toSet) { case (acc, x) =>
+      acc - x
+    }
+
+    remaining.isEmpty
