@@ -3,7 +3,7 @@ import org.scalacheck.Prop._
 import org.scalacheck.Gen
 import scala.util.Random
 
-def shuffledListGen: Gen[List[Int]] = for {
+def shuffledRangeGen: Gen[List[Int]] = for {
     n <- Gen.choose(0, 100)
 } yield Random.shuffle((1 to n).toList)
 
@@ -20,5 +20,5 @@ class UniqueTestSuite extends munit.FunSuite with ScalaCheckSuite:
         assert(!isPermutationOfRange(Seq(3,1)))
 
     property("permutation of range is permutation"):
-        forAll(shuffledListGen): (x) =>
+        forAll(shuffledRangeGen): (x) =>
             assert(isPermutation(x) == isPermutationOfRange(x))
