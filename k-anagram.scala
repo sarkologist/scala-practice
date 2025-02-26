@@ -30,7 +30,7 @@ given [K: Hashing, V: Semigroup]: Semigroup[MergeMap[K, V]] with
     )
 
 def isKAnagram(k: Int)(a: String, b: String): Boolean =
-  replacementsNeeded(a, b).exists(_ <= k)
+  replacementsNeeded(a.toLowerCase, b.toLowerCase).exists(_ <= k)
 
 def replacementsNeeded(a: String, b: String)
     (using Group[Int])
