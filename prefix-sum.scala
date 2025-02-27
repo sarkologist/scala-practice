@@ -8,5 +8,7 @@ def prefixSums(a: IndexedSeq[Int]): Array[Int] =
     p
 
 def sumOfSlice(p: IndexedSeq[Int], x: Int, y: Int): Int = 
-    val prefixes = prefixSums(p)
-    prefixes(y+1) - prefixes(x)
+    if x > y then throw IllegalArgumentException("x must be less than or equal to y")
+    else 
+        val prefixes = prefixSums(p)
+        prefixes(y+1) - prefixes(x)
