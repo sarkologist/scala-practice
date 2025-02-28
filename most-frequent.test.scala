@@ -1,8 +1,20 @@
 import munit.ScalaCheckSuite
 import org.scalacheck.Prop._
 import org.scalacheck.Gen
+import org.scalacheck.Shrink
 
 case class Majority[A](list: List[A], majority: A)
+
+implicit def shrinkMajority[A]: Shrink[Majority[A]] = Shrink { m =>
+  m.list match {
+      case h :: t if t != Nil && h == m.majority => 
+        // drop one other in addition to majority, to maintain majority status
+        val (keep, dropOne) = t.span(_ == m.majority)
+        Stream(Majority(keep ++ dropOne.drop(1), m.majority))
+      case h :: t if t != Nil => Stream(Majority(t, m.majority))
+      case _ => Stream.empty
+    }
+  }
 
 class MostFrequentTestSuite extends munit.FunSuite with ScalaCheckSuite:
     test("majorityElement"):
